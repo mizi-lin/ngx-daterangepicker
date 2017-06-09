@@ -1,6 +1,6 @@
 {
-  "name": "ngx-daterangepicker",
-  "version": "1.0.0",
+  "name": "mizi-ngx-daterangepicker",
+  "version": "1.0.2",
   "license": "MIT",
   "description": "Angular4.x i18n",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "npm run build:lib && npm run build:demo",
     "build:demo": "npm run clean && ng build --prod",
-    "build:lib": "npm run clean && ngc && copyfiles package.json README.md LICENSE dist/ && copyfiles -u 1 ./src/lib/month-picker.js ./src/lib/month-picker.scss ./dist/",
+    "build:lib": "npm run clean && ngc && copyfiles package.json README.md LICENSE dist/ && copyfiles -u 1 ./src/lib/daterangepicker.scss ./dist/",
     "test": "ng test",
     "test-coverage": "ng test --code-coverage",
     "test-ci": "ng test --watch=false --code-coverage",

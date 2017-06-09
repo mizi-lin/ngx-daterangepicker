@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import * as mu from 'mzmu';
 import {$$DateRangePicker} from '../lib/daterangepicker.serv';
 import * as moment from 'moment';
 

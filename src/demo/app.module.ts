@@ -2,13 +2,13 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import {daterangepickerModule} from '../lib/daterangepicker.module';
+import {DateRangePickerModule} from '../lib/daterangepicker.module';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        daterangepickerModule
+        DateRangePickerModule
     ],
     declarations: [
         AppComponent

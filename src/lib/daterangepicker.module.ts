@@ -27,10 +27,10 @@ import {$$DateRangePickerComponent} from './daterangepicker.component';
         $$DateRangePicker
     ]
 })
-export class daterangepickerModule {
+export class DateRangePickerModule {
     static forRoot(): ModuleWithProviders {
         return {
-            ngModule: daterangepickerModule
+            ngModule: DateRangePickerModule
         };
     }
 }

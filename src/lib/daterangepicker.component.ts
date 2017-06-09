@@ -1,16 +1,24 @@
 import {
-    Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit, enableProdMode, Output,
-    EventEmitter, AfterContentChecked, AfterViewChecked
+    Component,
+    Input, OnChanges, SimpleChanges, enableProdMode, Output,
+    EventEmitter, ViewEncapsulation
 } from '@angular/core';
-import {$$DateRangePicker} from 'ngx-daterangepicker';
 import 'bootstrap-daterangepicker';
 import * as mu from 'mzmu';
 import * as moment from 'moment';
-
+import {$$DateRangePicker} from './daterangepicker.serv';
 
 enableProdMode();
 @Component({
     selector: 'date-range-picker',
+    styleUrls: ['./daterangepicker.scss'],
+    // -> This is the real deal as shadow DOM is completely enabled. Older browsers can go to hell
+    // encapsulation: ViewEncapsulation.Native,
+    // -> This actually tries to emulate Shadow DOM to give us the feel that we are scoping our styles. This is not a real Shadow DOM but a strategy to make all browsers smile at our code
+    // encapsulation: ViewEncapsulation.Emulated,
+    // -> None: All elements are spit out - no Shadow DOM at all.
+    // -> 不使用shadow DOM
+    encapsulation: ViewEncapsulation.None,
     template: `
         <div class="input-group"
              daterangepicker
@@ -44,21 +52,19 @@ export class $$DateRangePickerComponent implements OnChanges {
     single: boolean;
     datePicker: any = {};
 
-    constructor(
-        private $$daterangepicker: $$DateRangePicker
-    ) {
+    constructor(private $$DateRangePicker: $$DateRangePicker) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
 
     }
 
-    selected_(rst: any){
+    selected_(rst: any) {
         this.daterange = rst;
         this.selected.emit(rst);
     }
 
-    picker_(dp: any){
+    picker_(dp: any) {
         this.daterange = {
             start: dp.picker.startDate,
             end: dp.picker.endDate
@@ -67,7 +73,5 @@ export class $$DateRangePickerComponent implements OnChanges {
         this.single = dp.options.singleDatePicker;
         this.picker.emit(dp);
     }
-
-
 
 }

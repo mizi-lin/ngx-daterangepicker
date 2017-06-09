@@ -2,7 +2,7 @@ import {
     AfterViewInit, Input, ElementRef, Directive, Output, EventEmitter, OnChanges,
     SimpleChanges, OnDestroy
 } from '@angular/core';
-import {$$DateRangePicker} from 'ngx-daterangepicker';
+import {$$DateRangePicker} from './daterangepicker.serv';
 import * as mu from 'mzmu';
 import * as $ from "jquery";
 import 'bootstrap-daterangepicker';

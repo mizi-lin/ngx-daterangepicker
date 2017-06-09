@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
-        "name": "ngx-daterangepicker"
+        "name": "mizi-ngx-daterangepicker"
     },
     "apps": [
         {
@@ -21,7 +21,6 @@
             "styles": [
                 "../node_modules/font-awesome/scss/font-awesome.scss",
                 "../node_modules/bootstrap/scss/bootstrap.scss",
-                "../node_modules/bootstrap-daterangepicker/daterangepicker.scss",
                 "styles.scss"
             ],
             "scripts": [
