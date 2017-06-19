@@ -44,10 +44,11 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
              * 重新计算ranges的时间范围
              */
             this.rangesAdjust(this.options);
-
             $elm.daterangepicker(this.options, this.callback.bind(this));
             this.datePicker = (<any>$(this.elm.nativeElement)).data('daterangepicker');
+            // -> 根据maxDate and minDate 调整显示时间区间
             this.adjust(this.datePicker);
+
             this.picker.emit({
                 picker: this.datePicker,
                 options: this.options,
@@ -57,9 +58,9 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                 }
             });
 
-            $elm.on('apply.daterangepicker', (ev, picker) => {
-                this.adjust(picker);
-            });
+            // $elm.on('show.daterangepicker', (ev, picker) => {
+            //     // this.adjust(picker);
+            // });
         });
     }
 
@@ -80,23 +81,10 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
      * @param maxDate
      */
     private inMoment(range: any[], minDate: any, maxDate: any): any[] {
-        let start = moment(range[0]);
-        let end = moment(range[1]);
-        minDate = moment(minDate);
-        maxDate = moment(maxDate);
+        let calc = (minDate: any, maxDate: any) => {
+            minDate = moment(minDate);
+            maxDate = moment(maxDate);
 
-        // 开始时间与结束时间的间隔数(毫秒)
-        let differ = end.diff(start);
-
-        // 若结束时间早于开始时间, 则时间互换
-        mu.run(differ < 0, () => {
-            start = moment(range[1]);
-            end = moment(range[0]);
-            differ = -differ;
-        });
-
-        // 最大和最小时间同时存在
-        mu.run(minDate && maxDate, () => {
             // 如果结束时间大于最大时间, 则 结束时间 = 最大时间
             if (end.diff(maxDate) > 0) {
                 end = maxDate.clone();
@@ -108,6 +96,40 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
             if (minDate.diff(start) > 0) {
                 start = minDate.clone();
             }
+        };
+
+
+        let start = moment(range[0]);
+        let end = moment(range[1]);
+
+        // 开始时间与结束时间的间隔数(毫秒)
+        let differ = end.diff(start);
+
+        // 若结束时间早于开始时间, 则时间互换
+        mu.run(differ < 0, () => {
+            start = moment(range[1]);
+            end = moment(range[0]);
+            differ = -differ;
+        });
+
+
+        // 最大和最小时间同时存在
+        mu.run(minDate && maxDate, () => {
+            calc(minDate, maxDate);
+        });
+
+        // 最小时间存在, 最大时间不存在时
+        mu.run(minDate && !maxDate, () => {
+            let minDate_ = moment(minDate);
+            let maxDate_ = moment('9999-12-31');
+            calc(minDate_, maxDate_);
+        });
+
+        // 最大时间存在, 最大时间不存在时
+        mu.run(!minDate && maxDate, () => {
+            let maxDate_ = moment(maxDate);
+            let minDate_ = moment('1900-01-01');
+            calc(minDate_, maxDate_);
         });
 
         return [
@@ -130,16 +152,9 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
 
     private adjust(datePicker?: any): void {
         let dp = datePicker, o = this.options;
-        mu.run(dp.startDate.diff(dp.endDate), (mm) => {
-            if (mm > 0) {
-                if (o.startDate && o.endDate) {
-                    let mm_ = moment(o.endDate).diff(o.startDate);
-                    dp.setStartDate(dp.endDate.clone().subtract(mm_));
-                }
-            }
-        });
-
-        dp.isAdjust = (!!dp.startDate.diff(o.startDate || moment())) && (!!dp.endDate.diff(o.endDate || moment()));
+        let range = this.inMoment([o.startDate, o.endDate], dp.minDate, dp.maxDate);
+        dp.setStartDate(range[0]);
+        dp.setEndDate(range[1]);
     }
 
     private callback(start?: any, end?: any, label?: any): void {

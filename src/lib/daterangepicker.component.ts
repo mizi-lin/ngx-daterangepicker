@@ -7,21 +7,23 @@ import 'bootstrap-daterangepicker';
 import * as mu from 'mzmu';
 import * as moment from 'moment';
 import {$$DateRangePicker} from './daterangepicker.serv';
+require('bootstrap-daterangepicker/daterangepicker.scss');
 
 enableProdMode();
 @Component({
     selector: 'date-range-picker',
-    styleUrls: ['./daterangepicker.scss'],
+    // styleUrls: ['./daterangepicker.scss'],
     // -> This is the real deal as shadow DOM is completely enabled. Older browsers can go to hell
     // encapsulation: ViewEncapsulation.Native,
     // -> This actually tries to emulate Shadow DOM to give us the feel that we are scoping our styles. This is not a real Shadow DOM but a strategy to make all browsers smile at our code
     // encapsulation: ViewEncapsulation.Emulated,
     // -> None: All elements are spit out - no Shadow DOM at all.
     // -> 不使用shadow DOM
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
     template: `
         <div class="input-group"
              daterangepicker
+             [inherit]="inherit"
              [options]="options"
              (picker)="picker_($event)"
              (selected)="selected_($event)">
@@ -45,6 +47,7 @@ enableProdMode();
 export class $$DateRangePickerComponent implements OnChanges {
 
     @Input() options: any;
+    @Input() inherit: any;
     @Output() selected: any = new EventEmitter<any>();
     @Output() picker: any = new EventEmitter<any>();
 

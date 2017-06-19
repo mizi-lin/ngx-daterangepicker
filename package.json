@@ -1,6 +1,6 @@
 {
   "name": "mizi-ngx-daterangepicker",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "license": "MIT",
   "description": "Angular4.x i18n",
   "scripts": {
@@ -85,6 +85,7 @@
     "bootstrap-daterangepicker": "^2.1.25",
     "jquery": "^3.2.1",
     "mzmu": "^1.8.4",
+    "ngx-month-picker": "^1.0.9",
     "tether": "^1.4.0"
   }
 }
