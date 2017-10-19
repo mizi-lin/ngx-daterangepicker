@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {$$DateRangePicker} from './daterangepicker.serv';
 import * as mu from 'mzmu';
-import * as $ from "jquery";
+import * as $ from 'jquery';
 import 'bootstrap-daterangepicker';
 import * as moment from 'moment';
 
@@ -45,7 +45,7 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
              */
             this.rangesAdjust(this.options);
             $elm.daterangepicker(this.options, this.callback.bind(this));
-            this.datePicker = (<any>$(this.elm.nativeElement)).data('daterangepicker');
+            this.datePicker = $elm.data('daterangepicker');
             // -> 根据maxDate and minDate 调整显示时间区间
             this.adjust(this.datePicker);
 
@@ -56,6 +56,68 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                     start: this.datePicker.startDate,
                     end: this.datePicker.endDate
                 }
+            });
+
+            /**
+             * 硬插入季度选择器
+             */
+            mu.run(() => {
+                let d = new Date();
+                let year = d.getFullYear();
+
+                let $calendar = <any>$(this.datePicker.container[0]);
+                let $quarter = <any>$(`<div class="quarter">Quarter Picker </div>`);
+                let $quarter_picker = <any>$(`<div class="quarter-picker">
+                        <ol>
+                            <li>
+                                <h5>2016</h5>
+                                <div>
+                                    <span class="disabled">JFM</span>
+                                    <span class="disabled">AMJ</span>
+                                    <span data-start="2016-07-01" data-end="2016-09-30">JAS</span>
+                                    <span data-start="2016-10-01" data-end="2016-12-31">OND</span>
+                                </div>    
+                            </li>
+                            <li>
+                                <h5>2017</h5>
+                                <div>
+                                    <span data-start="2017-01-01" data-end="2017-03-31">JFM</span>
+                                    <span data-start="2017-04-01" data-end="2017-06-30">AMJ</span>
+                                    <span data-start="2017-07-01" data-end="2017-09-30">JAS</span>
+                                    <span data-start="2017-10-01" data-end="2017-12-31">OND</span>
+                                </div>   
+                            </li>
+                        </ol>
+                </div>`);
+                $calendar.find('.ranges ul').after($quarter);
+                $calendar.find('.ranges').after($quarter_picker);
+
+                $quarter.on('click', () => {
+                    $calendar.addClass('show-quarter-picker');
+                    $calendar.removeClass('show-calendar');
+                    $calendar.find('.ranges ul li').removeClass('active');
+                });
+
+                $calendar.find('.ranges ul li').hover(() => {
+                    $calendar.removeClass('show-quarter-picker');
+                });
+
+
+                // 选择设置日期
+                $quarter_picker.find('span:not(.disabled)').on('click', (e) => {
+                    let elm = <any>$(e.target);
+                    let start = elm.data('start');
+                    let end = elm.data('end');
+                    start = moment(start + 'T00:00:00.000');
+                    end = moment(end + 'T00:00:00.000');
+
+                    this.datePicker.setStartDate(start);
+                    this.datePicker.setEndDate(end);
+                    this.datePicker.hide();
+                    $calendar.removeClass('show-quarter-picker');
+
+                });
+
             });
 
             // $elm.on('show.daterangepicker', (ev, picker) => {
@@ -98,7 +160,6 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
             }
         };
 
-
         let start = moment(range[0]);
         let end = moment(range[1]);
 
@@ -111,7 +172,6 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
             end = moment(range[0]);
             differ = -differ;
         });
-
 
         // 最大和最小时间同时存在
         mu.run(minDate && maxDate, () => {
@@ -152,7 +212,10 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
 
     private adjust(datePicker?: any): void {
         let dp = datePicker, o = this.options;
-        let range = this.inMoment([o.startDate, o.endDate], dp.minDate, dp.maxDate);
+        let range = this.inMoment([
+            o.startDate,
+            o.endDate
+        ], dp.minDate, dp.maxDate);
         dp.setStartDate(range[0]);
         dp.setEndDate(range[1]);
     }

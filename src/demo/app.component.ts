@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 import {$$DateRangePicker} from '../lib/daterangepicker.serv';
 import * as moment from 'moment';
 
 @Component({
     selector: 'ngx-app',
+    styleUrls: ['./demo.scss'],
+    encapsulation: ViewEncapsulation.None,
     template: `
         <div class="container">
            <h2>Angular 4 ngx-daterangepicker demo</h2>

@@ -37,5 +37,4 @@ export class $$DateRangePicker {
         options = $.extend(true, {}, this.options, options);
         this.options = options;
     }
-
 }
