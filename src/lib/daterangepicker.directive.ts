@@ -3,10 +3,11 @@ import {
     SimpleChanges, OnDestroy
 } from '@angular/core';
 import {$$DateRangePicker} from './daterangepicker.serv';
-import * as mu from 'mzmu';
+import * as moment from 'moment';
 import * as $ from 'jquery';
 import 'bootstrap-daterangepicker';
-import * as moment from 'moment';
+import * as mu from 'mzmu';
+// import './a.js'
 
 @Directive({
     selector: '[daterangepicker]',
@@ -37,6 +38,9 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
     ngAfterViewInit(): void {
         this.ngOnDestroy();
         let $elm = <any>$(this.elm.nativeElement);
+
+        console.dir($.fn)
+
         mu.run($elm.length, () => {
             this.options = $.extend(true, {}, this.inherit ? this.$$daterangepicker.options : {}, this.options);
 
@@ -62,8 +66,21 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
              * 硬插入季度选择器
              */
             mu.run(() => {
-                let d = new Date();
-                let year = d.getFullYear();
+
+                let m = moment().clone();
+                let year = m.year();
+
+                let y2019 = `
+                    <li>
+                        <h5>2019</h5>
+                        <div>
+                            ${m > moment("2019-01-01") ? '<span data-start="2019-01-01" data-end="2019-03-31">JFM</span>' : ''}
+                            ${m > moment("2019-04-01") ? '<span data-start="2019-04-01" data-end="2019-06-30">AMJ</span>' : '<span class="disabled">AMJ</span>'}
+                            ${m > moment("2019-07-01") ? '<span data-start="2019-07-01" data-end="2019-09-30">JAS</span>' : '<span class="disabled">JAS</span>'}
+                            ${m > moment("2019-10-01") ? '<span data-start="2019-10-01" data-end="2019-12-31">OND</span>' : '<span class="disabled">OND</span>'}
+                        </div>   
+                    </li>
+                `;
 
                 let $calendar = <any>$(this.datePicker.container[0]);
                 let $quarter = <any>$(`<div class="quarter">Quarter Picker </div>`);
@@ -87,6 +104,16 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                                     <span data-start="2017-10-01" data-end="2017-12-31">OND</span>
                                 </div>   
                             </li>
+                            <li>
+                                <h5>2018</h5>
+                                <div>
+                                    <span data-start="2018-01-01" data-end="2018-03-31">JFM</span>
+                                    <span data-start="2018-04-01" data-end="2018-06-30">AMJ</span>
+                                    <span data-start="2018-07-01" data-end="2018-09-30">JAS</span>
+                                    <span data-start="2018-10-01" data-end="2018-12-31">OND</span>
+                                </div>   
+                            </li>
+                            ${year === 2019 ? y2019 : ''}
                         </ol>
                 </div>`);
                 $calendar.find('.ranges ul').after($quarter);

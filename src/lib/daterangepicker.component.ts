@@ -7,7 +7,7 @@ import 'bootstrap-daterangepicker';
 import * as mu from 'mzmu';
 import * as moment from 'moment';
 import {$$DateRangePicker} from './daterangepicker.serv';
-require('bootstrap-daterangepicker/daterangepicker.scss');
+require('./daterangepicker.css');
 
 enableProdMode();
 @Component({

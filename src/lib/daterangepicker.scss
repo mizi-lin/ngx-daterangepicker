@@ -220,15 +220,16 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
 
     &.single {
-        .ranges, .calendar {
+        .ranges, .drp-calendar {
             float: none;
         }
     }
 
     /* Calendars */
     &.show-calendar {
-        .calendar {
+        .drp-calendar {
             display: block;
+            width: 270px;
         }
     }
 

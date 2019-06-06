@@ -4,11 +4,14 @@
     "outDir": "../out-tsc/demo",
     "baseUrl": ".",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
+    "importHelpers": true,
+
     "lib": [
       "es2016",
       "dom"
