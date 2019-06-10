@@ -4,10 +4,8 @@ import {
 } from '@angular/core';
 import {$$DateRangePicker} from './daterangepicker.serv';
 import * as moment from 'moment';
-import * as $ from 'jquery';
-import 'bootstrap-daterangepicker';
+import './daterangepicker.js';
 import * as mu from 'mzmu';
-// import './a.js'
 
 @Directive({
     selector: '[daterangepicker]',
@@ -38,8 +36,6 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
     ngAfterViewInit(): void {
         this.ngOnDestroy();
         let $elm = <any>$(this.elm.nativeElement);
-
-        console.dir($.fn)
 
         mu.run($elm.length, () => {
             this.options = $.extend(true, {}, this.inherit ? this.$$daterangepicker.options : {}, this.options);
@@ -82,6 +78,18 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                     </li>
                 `;
 
+                let y2020 = `
+                    <li>
+                        <h5>2020</h5>
+                        <div>
+                            ${m > moment("2020-01-01") ? '<span data-start="2020-01-01" data-end="2020-03-31">JFM</span>' : ''}
+                            ${m > moment("2020-04-01") ? '<span data-start="2020-04-01" data-end="2020-06-30">AMJ</span>' : '<span class="disabled">AMJ</span>'}
+                            ${m > moment("2020-07-01") ? '<span data-start="2020-07-01" data-end="2020-09-30">JAS</span>' : '<span class="disabled">JAS</span>'}
+                            ${m > moment("2020-10-01") ? '<span data-start="2020-10-01" data-end="2020-12-31">OND</span>' : '<span class="disabled">OND</span>'}
+                        </div>   
+                    </li>
+                `;
+
                 let $calendar = <any>$(this.datePicker.container[0]);
                 let $quarter = <any>$(`<div class="quarter">Quarter Picker </div>`);
                 let $quarter_picker = <any>$(`<div class="quarter-picker">
@@ -114,6 +122,7 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                                 </div>   
                             </li>
                             ${year === 2019 ? y2019 : ''}
+                            ${year === 2020 ? y2020 : ''}
                         </ol>
                 </div>`);
                 $calendar.find('.ranges ul').after($quarter);

@@ -3,23 +3,19 @@ import {
     Input, OnChanges, SimpleChanges, enableProdMode, Output,
     EventEmitter, ViewEncapsulation
 } from '@angular/core';
-import 'bootstrap-daterangepicker';
-import * as mu from 'mzmu';
-import * as moment from 'moment';
 import {$$DateRangePicker} from './daterangepicker.serv';
-require('./daterangepicker.css');
 
 enableProdMode();
 @Component({
     selector: 'date-range-picker',
-    // styleUrls: ['./daterangepicker.scss'],
+    styleUrls: ['./daterangepicker.css'],
     // -> This is the real deal as shadow DOM is completely enabled. Older browsers can go to hell
     // encapsulation: ViewEncapsulation.Native,
     // -> This actually tries to emulate Shadow DOM to give us the feel that we are scoping our styles. This is not a real Shadow DOM but a strategy to make all browsers smile at our code
     // encapsulation: ViewEncapsulation.Emulated,
     // -> None: All elements are spit out - no Shadow DOM at all.
     // -> 不使用shadow DOM
-    // encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,
     template: `
         <div class="input-group"
              daterangepicker
