@@ -101,7 +101,6 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                     const quarterThreeEnd = `${i}-09-31`;
                     const quarterFour = `${i}-10-01`;
                     const quarterFourEnd = `${i}-12-31`;
-                    console.log(2, m, quarterOne, moment(quarterOne), m > moment(quarterOne))
                     renderQuarterPickerLis.push(`<li>
                     <h5>${i}</h5>
                     <div>
