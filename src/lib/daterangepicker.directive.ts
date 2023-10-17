@@ -66,7 +66,7 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                 let m = moment().clone();
                 let year = m.year();
 
-                let y2019 = `
+                /* let y2019 = `
                     <li>
                         <h5>2019</h5>
                         <div>
@@ -88,7 +88,30 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                             ${m > moment("2020-10-01") ? '<span data-start="2020-10-01" data-end="2020-12-31">OND</span>' : '<span class="disabled">OND</span>'}
                         </div>   
                     </li>
-                `;
+                `; */
+
+                // 从19年至今
+                let renderQuarterPickerLis = [];
+                for(let i=2019; i<=year; i++) {
+                    const quarterOne = `${i}-01-01`;
+                    const quarterOneEnd = `${i}-03-31`;
+                    const quarterTwo = `${i}-04-01`;
+                    const quarterTwoEnd = `${i}-06-30`;
+                    const quarterThree = `${i}-07-01`;
+                    const quarterThreeEnd = `${i}-09-31`;
+                    const quarterFour = `${i}-10-01`;
+                    const quarterFourEnd = `${i}-12-31`;
+                    console.log(2, m, quarterOne, moment(quarterOne), m > moment(quarterOne))
+                    renderQuarterPickerLis.push(`<li>
+                    <h5>${i}</h5>
+                    <div>
+                        ${m > moment(quarterOne) ? '<span data-start="'+quarterOne+'" data-end="'+quarterOneEnd+'">JFM</span>' : ''}
+                        ${m > moment(quarterTwo) ? '<span data-start="'+quarterTwo+'" data-end="'+quarterTwoEnd+'">AMJ</span>' : '<span class="disabled">AMJ</span>'}
+                        ${m > moment(quarterThree) ? '<span data-start="'+quarterThree+'" data-end="'+quarterThreeEnd+'">JAS</span>' : '<span class="disabled">JAS</span>'}
+                        ${m > moment(quarterFour) ? '<span data-start="'+quarterFour+'" data-end="'+quarterFourEnd+'">OND</span>' : '<span class="disabled">OND</span>'}
+                    </div>   
+                </li>`)
+                }
 
                 let $calendar = <any>$(this.datePicker.container[0]);
                 let $quarter = <any>$(`<div class="quarter">Quarter Picker </div>`);
@@ -121,8 +144,7 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                                     <span data-start="2018-10-01" data-end="2018-12-31">OND</span>
                                 </div>   
                             </li>
-                            ${year === 2019 ? y2019 : ''}
-                            ${year === 2020 ? y2020 : ''}
+                            ${renderQuarterPickerLis.join('')}
                         </ol>
                 </div>`);
                 $calendar.find('.ranges ul').after($quarter);
