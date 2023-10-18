@@ -8,7 +8,7 @@ import {$$DateRangePicker} from './daterangepicker.serv';
 enableProdMode();
 @Component({
     selector: 'date-range-picker',
-    styleUrls: ['/daterangepicker.css'],
+    // styleUrls: ['/daterangepicker.css'],
     // -> This is the real deal as shadow DOM is completely enabled. Older browsers can go to hell
     // encapsulation: ViewEncapsulation.Native,
     // -> This actually tries to emulate Shadow DOM to give us the feel that we are scoping our styles. This is not a real Shadow DOM but a strategy to make all browsers smile at our code
