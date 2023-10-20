@@ -84,7 +84,7 @@ var $$daterangepickerDirective = (function () {
                     var quarterTwo = i + "-04-01";
                     var quarterTwoEnd = i + "-06-30";
                     var quarterThree = i + "-07-01";
-                    var quarterThreeEnd = i + "-09-31";
+                    var quarterThreeEnd = i + "-09-30";
                     var quarterFour = i + "-10-01";
                     var quarterFourEnd = i + "-12-31";
                     renderQuarterPickerLis.push("<li>\n                    <h5>" + i + "</h5>\n                    <div>\n                        " + (m > moment(quarterOne) ? '<span data-start="' + quarterOne + '" data-end="' + quarterOneEnd + '">JFM</span>' : '') + "\n                        " + (m > moment(quarterTwo) ? '<span data-start="' + quarterTwo + '" data-end="' + quarterTwoEnd + '">AMJ</span>' : '<span class="disabled">AMJ</span>') + "\n                        " + (m > moment(quarterThree) ? '<span data-start="' + quarterThree + '" data-end="' + quarterThreeEnd + '">JAS</span>' : '<span class="disabled">JAS</span>') + "\n                        " + (m > moment(quarterFour) ? '<span data-start="' + quarterFour + '" data-end="' + quarterFourEnd + '">OND</span>' : '<span class="disabled">OND</span>') + "\n                    </div>   \n                </li>");
@@ -107,8 +107,10 @@ var $$daterangepickerDirective = (function () {
                     var elm = $(e.target);
                     var start = elm.data('start');
                     var end = elm.data('end');
-                    start = moment(start + 'T00:00:00.000');
-                    end = moment(end + 'T00:00:00.000');
+                    console.log(555, start, end);
+                    start = moment(start);
+                    end = moment(end);
+                    console.log(666, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
                     _this.datePicker.setStartDate(start);
                     _this.datePicker.setEndDate(end);
                     _this.datePicker.hide();
