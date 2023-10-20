@@ -98,7 +98,7 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                     const quarterTwo = `${i}-04-01`;
                     const quarterTwoEnd = `${i}-06-30`;
                     const quarterThree = `${i}-07-01`;
-                    const quarterThreeEnd = `${i}-09-31`;
+                    const quarterThreeEnd = `${i}-09-30`;
                     const quarterFour = `${i}-10-01`;
                     const quarterFourEnd = `${i}-12-31`;
                     renderQuarterPickerLis.push(`<li>
@@ -165,9 +165,10 @@ export class $$daterangepickerDirective implements AfterViewInit, OnChanges, OnD
                     let elm = <any>$(e.target);
                     let start = elm.data('start');
                     let end = elm.data('end');
-                    start = moment(start + 'T00:00:00.000');
-                    end = moment(end + 'T00:00:00.000');
-
+                    console.log(555, start, end)
+                    start = moment(start);
+                    end = moment(end);
+                    console.log(666, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
                     this.datePicker.setStartDate(start);
                     this.datePicker.setEndDate(end);
                     this.datePicker.hide();
